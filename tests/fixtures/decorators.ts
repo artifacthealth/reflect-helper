@@ -1,4 +1,4 @@
-import {makeClassDecorator, makePropertyDecorator} from "../../src/util";
+import {makeDecorator} from "../../src/util";
 
 // Define annotations
 export class ContractAnnotation {
@@ -38,6 +38,6 @@ export interface FieldDecoratorFactory {
 }
 
 // Make decorators
-export var Contract: ContractDecoratorFactory = makeClassDecorator(ContractAnnotation);
-export var Operation: OperationDecoratorFactory = makePropertyDecorator(OperationAnnotation);
-export var Field: FieldDecoratorFactory = makePropertyDecorator(FieldAnnotation);
+export var Contract: ContractDecoratorFactory = makeDecorator(ContractAnnotation);
+export var Operation: OperationDecoratorFactory = makeDecorator(OperationAnnotation);
+export var Field: FieldDecoratorFactory = makeDecorator(FieldAnnotation);

@@ -1,7 +1,7 @@
 {
   "name": "reflect-helper",
   "description": "A utility library to for working with Angular2-style annotations and type information provided by TypeScript emitDecoratorMetadata.",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "author": {
     "name": "Artifact Health, LLC",
     "url": "http://www.artifacthealth.com"
@@ -12,7 +12,7 @@
   },
   "licenses": [
     {
-      "type": "MIT"
+      "type": "Apache-2.0"
     }
   ],
   "main": "index.js",

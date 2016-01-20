@@ -1,11 +1,5 @@
-export interface Constructor<T> extends Function {
+export interface Constructor<T> {
 
     name?: string;
     new(...args: any[]): T;
-}
-
-export interface ParameterlessConstructor<T>  extends Function {
-
-    name?: string;
-    new(): T;
 }
