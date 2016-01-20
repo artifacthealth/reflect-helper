@@ -13,12 +13,12 @@ describe('Type', () => {
 
         it('gets a list of all methods on the prototype even if they are not annotated', () => {
 
-            assert.equal(typeWithoutDecorators.methods.length, 3);
+            assert.equal(typeWithoutDecorators.methods.length, 2);
         });
 
         it('gets methods that are decorated or not and are functions', () => {
 
-            assert.equal(typeWithDecorators.methods.length, 3);
+            assert.equal(typeWithDecorators.methods.length, 2);
         });
     });
 

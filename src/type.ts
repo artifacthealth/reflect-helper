@@ -127,6 +127,16 @@ export class Type {
         return this.ctr.prototype[Symbol.iterator] !== undefined;
     }
 
+    createInstance(args?: any[]): any {
+
+        if(!args) {
+            return new this.ctr();
+        }
+        else {
+            return new this.ctr(...args);
+        }
+    }
+
     private _getBaseType(): Constructor<any> {
 
         var basePrototype = this.ctr && this.ctr.prototype && Object.getPrototypeOf(this.ctr.prototype);
@@ -148,7 +158,7 @@ export class Type {
 
         if(this.ctr) {
             return Object.getOwnPropertyNames(this.ctr.prototype)
-                .filter(p => typeof this.ctr.prototype[p] === "function");
+                .filter(p => p != "constructor" && typeof this.ctr.prototype[p] === "function");
         }
 
         return [];

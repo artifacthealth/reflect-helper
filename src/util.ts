@@ -40,22 +40,6 @@ export function makeDecorator(annotationCtr: Constructor<any>) {
     }
 }
 
-function addAnnotation(value: any, target: Object, propertyName?: string): void {
-
-    if(!propertyName) {
-        var annotations = Reflect.getOwnMetadata('annotations', target) || [];
-        annotations.push(value);
-        Reflect.defineMetadata('annotations', annotations, target);
-        return;
-    }
-
-    var properties = Reflect.getOwnMetadata('propMetadata', target.constructor);
-    properties = properties || {};
-    properties[propertyName] = properties[propertyName] || [];
-    properties[propertyName].push(value);
-    Reflect.defineMetadata('propMetadata', properties, target.constructor);
-}
-
 export interface PropertyDecorators {
 
     [x: string]: (PropertyDecorator | PropertyDecorator[]);

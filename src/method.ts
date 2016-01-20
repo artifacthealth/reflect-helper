@@ -34,7 +34,7 @@ export class Method extends Property {
 
     private _getReturnType(): Constructor<any> {
 
-        return Reflect.getMetadata('design:returntype', this.parent.ctr, this.name)
+        return Reflect.getMetadata('design:returntype', this.parent.ctr.prototype, this.name)
     }
 
     private _parameters: Parameter[];
@@ -63,7 +63,7 @@ export class Method extends Property {
 
     private _getParameterTypes(): Constructor<any>[] {
 
-        return Reflect.getMetadata('design:paramtypes', this.parent.ctr, this.name) || [];
+        return Reflect.getMetadata('design:paramtypes', this.parent.ctr.prototype, this.name) || [];
     }
 
     private _getParameterNames(): string[] {
