@@ -1,7 +1,7 @@
 {
   "name": "reflect-helper",
   "description": "A utility library to for working with Angular2-style annotations and type information provided by TypeScript emitDecoratorMetadata.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": {
     "name": "Artifact Health, LLC",
     "url": "http://www.artifacthealth.com"
@@ -31,6 +31,7 @@
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-typedoc": "^1.2.1",
     "gulp-typescript": "^2.10.0",
     "merge2": "^1.0.0",
     "mocha": "^2.0.1",

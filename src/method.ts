@@ -3,15 +3,23 @@ import {Parameter} from "./parameter";
 import {Type} from "./type";
 import {ReflectContext} from "./reflectContext";
 import {Property} from "./property";
-import {Constructor} from "./constructor";
+import {Constructor} from "./util";
 
 // These RegEx and the code below for getParameterNames is modified code from AngularJS
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 var FN_ARG_SPLIT = /,/;
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
+/**
+ * Information on a method.
+ */
 export class Method extends Property {
 
+    /**
+     * Invokes the method on the given object with the specified arguments.
+     * @param obj The object to invoke the method on.
+     * @param args A list of arguments to pass to the method.
+     */
     invoke(obj: any, args?: any[]): any {
 
         this.invoke = <any>(new Function("o, a", "var m = o['" + this.name + "']; if(!m) throw new Error(\"Cannot invoke method '" + this.name + "'.\"); return m.apply(o, a)"));
@@ -22,8 +30,14 @@ export class Method extends Property {
         return method.apply(obj, args);
     }
 
+    /**
+     * @hidden
+     */
     private _returnType: Type;
 
+    /**
+     * The return type of the method. (Only available if the --emitDecoratorMetadata compiler option is enabled and the method is decorated.)
+     */
     get returnType(): Type {
 
         if(this._returnType === undefined) {
@@ -32,13 +46,22 @@ export class Method extends Property {
         return this._returnType;
     }
 
+    /**
+     * @hidden
+     */
     private _getReturnType(): Constructor<any> {
 
         return Reflect.getMetadata('design:returntype', this.parent.ctr.prototype, this.name)
     }
 
+    /**
+     * @hidden
+     */
     private _parameters: Parameter[];
 
+    /**
+     * A list of parameters for the method.
+     */
     get parameters(): Parameter[] {
 
         if(!this._parameters) {
@@ -48,6 +71,9 @@ export class Method extends Property {
         return this._parameters;
     }
 
+    /**
+     * @hidden
+     */
     private _getParameters(): Parameter[] {
 
         var names = this._getParameterNames(),
@@ -61,11 +87,17 @@ export class Method extends Property {
         return params;
     }
 
+    /**
+     * @hidden
+     */
     private _getParameterTypes(): Constructor<any>[] {
 
         return Reflect.getMetadata('design:paramtypes', this.parent.ctr.prototype, this.name) || [];
     }
 
+    /**
+     * @hidden
+     */
     private _getParameterNames(): string[] {
 
         var fn = this.parent.ctr.prototype[this.name];

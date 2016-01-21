@@ -1,17 +1,35 @@
 import "reflect-metadata";
-import {Constructor} from "./constructor";
 import {Property} from "./property";
 import {ReflectContext} from "./reflectContext";
-import {matchingAnnotations} from "./util";
+import {matchingAnnotations, Constructor} from "./util";
 import {Method} from "./method";
 
+/**
+ * Information on a concrete type.
+ */
 export class Type {
 
+    /**
+     * The constructor function for the type.
+     */
     ctr: Constructor<any>;
+
+    /**
+     * The name of the type.
+     */
     name: string;
 
+    /**
+     * @hidden
+     */
     private _context: ReflectContext;
 
+    /**
+     * Creates a type object.
+     * @param context The [[ReflectContext]] that is managing this type.
+     * @param ctr The constructor function for the type.
+     * @hidden
+     */
     constructor(context: ReflectContext, ctr: Constructor<any>) {
 
         if(!ctr) {
@@ -23,7 +41,17 @@ export class Type {
         this._context = context;
     }
 
+    /**
+     * Gets a list of annotations for the current type.
+     * @param inherit Indicates if annotations from base types should be included. Default false.
+     */
     getAnnotations(inherit?: boolean): any[];
+
+    /**
+     * Gets a list of the specified type of annotations for the current type.
+     * @param annotationCtr The constructor function used to filter the annotations.
+     * @param inherit Indicates if annotations from base types should be included. Default false.
+     */
     getAnnotations<T>(annotationCtr: Constructor<T>, inherit?: boolean) : T[];
     getAnnotations(inheritOrAnnotationCtr?: any, inherit?: boolean): any[] {
 
@@ -48,13 +76,24 @@ export class Type {
         return annotations;
     }
 
+    /**
+     * Checks if the type has the specified type of annotation.
+     * @param annotationCtr The constructor function for the annotation to look for.
+     * @param inherit Indicates if base types should be checked as well. Default false.
+     */
     hasAnnotation(annotationCtr: Constructor<any>, inherit?: boolean) : boolean {
 
         return this.getAnnotations(annotationCtr, inherit).length > 0;
     }
 
+    /**
+     * @hidden
+     */
     private _properties: Property[];
 
+    /**
+     * A list of annotated properties for the type.
+     */
     get properties(): Property[] {
 
         if(!this._properties) {
@@ -66,8 +105,14 @@ export class Type {
         return this._properties;
     }
 
+    /**
+     * @hidden
+     */
     private _methods: Method[];
 
+    /**
+     * A list of methods for the type. Methods are available whether or not they are annotated.
+     */
     get methods(): Method[] {
 
         if(!this._methods) {
@@ -79,8 +124,14 @@ export class Type {
         return this._methods;
     }
 
+    /**
+     * @hidden
+     */
     private _baseType: Type;
 
+    /**
+     * The base type for the current type.
+     */
     get baseType(): Type {
 
         if(this._baseType === undefined) {
@@ -89,36 +140,57 @@ export class Type {
         return this._baseType;
     }
 
+    /**
+     * Indicates if the type is the global Number type.
+     */
     get isNumber(): boolean {
 
         return this.ctr === Number;
     }
 
+    /**
+     * Indicates if the type is the global String type.
+     */
     get isString(): boolean {
 
         return this.ctr === String;
     }
 
+    /**
+     * Indicates if the type is the global Boolean type.
+     */
     get isBoolean(): boolean {
 
         return this.ctr === Boolean;
     }
 
+    /**
+     * Indicates if the type is the global Array type.
+     */
     get isArray(): boolean {
 
         return this.ctr === Array;
     }
 
+    /**
+     * Indicates if the type is the global Set type.
+     */
     get isSet(): boolean {
 
         return this.ctr === Map;
     }
 
+    /**
+     * Indicates if the type is the global Function type.
+     */
     get isFunction(): boolean {
 
         return this.ctr === Function;
     }
 
+    /**
+     * Indicates if the type is iterable (i.e. the type defines a method for Symbol.iterator).
+     */
     get isIterable(): boolean {
 
         if (this.ctr == null || this.ctr.prototype == null) {
@@ -127,6 +199,11 @@ export class Type {
         return this.ctr.prototype[Symbol.iterator] !== undefined;
     }
 
+    /**
+     * Creates an instance of the type with the specified arguments.
+     * @param args The arguments to pass to the constructor.
+     * @returns An instance of the type.
+     */
     createInstance(args?: any[]): any {
 
         if(!args) {
@@ -137,12 +214,20 @@ export class Type {
         }
     }
 
+    /**
+     * Gets the base type of the current type.
+     * @hidden
+     */
     private _getBaseType(): Constructor<any> {
 
         var basePrototype = this.ctr && this.ctr.prototype && Object.getPrototypeOf(this.ctr.prototype);
         return basePrototype && basePrototype.constructor;
     }
 
+    /**
+     * Gets a list of annotated properties for the type that are not methods.
+     * @hidden
+     */
     private _getPropertyNames(): string[] {
 
         var properties = Reflect.getOwnMetadata('propMetadata', this.ctr);
@@ -154,6 +239,10 @@ export class Type {
         return [];
     }
 
+    /**
+     * Gets a list of methods for the type.
+     * @hidden
+     */
     private _getMethodNames(): string[] {
 
         if(this.ctr) {
@@ -164,6 +253,10 @@ export class Type {
         return [];
     }
 
+    /**
+     * Gets a list of annotations for the type.
+     * @hidden
+     */
     private _getOwnMetadata(): any[] {
 
         return Reflect.getOwnMetadata('annotations', this.ctr) || [];

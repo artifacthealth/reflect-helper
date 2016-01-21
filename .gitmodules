@@ -1,0 +1,4 @@
+[submodule "docs"]
+	path = docs
+	url = https://github.com/artifacthealth/reflect-helper.git
+	branch = gh-pages

@@ -5,6 +5,7 @@ var merge = require("merge2");
 var runSequence = require("run-sequence");
 var mocha = require("gulp-mocha");
 var sourcemaps = require('gulp-sourcemaps');
+var typedoc = require("gulp-typedoc");
 
 var tsProject = ts.createProject('./tsconfig.json');
 
@@ -47,4 +48,19 @@ gulp.task('debug', ['clean'], function() {
         .pipe(ts(tsProject))
         .pipe(sourcemaps.write('.', {includeContent: false, sourceRoot: process.cwd() }))
         .pipe(gulp.dest('build'));
+});
+
+gulp.task('docs', function() {
+    return gulp.src(['typings/**/*.ts', 'src/**/*.ts']).pipe(typedoc({
+        target: 'es5',
+        module: "commonjs",
+        out: 'docs',
+        mode: "file",
+        name: "reflect-helper",
+        entryPoint: "index",
+        includeDeclarations: false,
+        excludeExternals: true,
+        excludeNotExported: true,
+        plugin: ['comment']
+    }));
 });
