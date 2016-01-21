@@ -63,6 +63,69 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<p>This module is a utility library for working with Angular2-style annotations and type information provided by
+					TypeScript emitDecoratorMetadata. An annotation is a class that can be added as metadata on a type, property, method,
+				or parameter. API documentation is available <a href="http://artifacthealth.github.io/reflect-helper">here</a>.</p>
+				<h2 id="usage">Usage</h2>
+				<p>Supposed you have a class, EntityAnnotation, that can be used to flag a type as a persistent entity. The
+				annotation can optionally specify the name of the entity. You can create this annotation in TypeScript as follows:</p>
+				<pre><code class="lang-typescript"> <span class="hljs-keyword">class</span> EntityAnnotation {
+
+     <span class="hljs-constructor"><span class="hljs-keyword">constructor</span>(public name?: string) </span>{
+     }
+ }
+</code></pre>
+				<p>To be able to apply the annotation to a class, we must first turn it into a decorator factory. We can do this using
+					the <a href="globals.html#makedecorator">makeDecorator</a> function. When applied, an instance of the annotation is created and added to the &#39;annotations&#39;
+				metadata for the class.</p>
+				<p>The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may
+				want to provide a type annotation because the parameters cannot be inferred.</p>
+				<pre><code class="lang-typescript"> <span class="hljs-keyword">import</span> { makeDecorator } from <span class="hljs-string">"reflect-helper"</span>;
+
+ <span class="hljs-keyword">var</span> Entity: (name?: <span class="hljs-built_in">string</span>) =&gt; ClassDecorator = makeDecorator(EntityAnnotation);
+</code></pre>
+				<p>The Entity decorator can be applied to the class as demonstrated below. In this example we also apply a property
+				decorator called Field:</p>
+				<pre><code class="lang-typescript"> @Entity(<span class="hljs-string">"person"</span>)
+ <span class="hljs-keyword">class</span> Person {
+
+     @Field()
+     age: <span class="hljs-built_in">number</span>;
+
+     <span class="hljs-constructor"><span class="hljs-keyword">constructor</span>(age: number) </span>{
+         <span class="hljs-keyword">this</span>.age = age;
+     }
+ }
+</code></pre>
+				<p>If not using a transpiler, such as TypeScript or Babel, that supports decorators, we can instead apply the decorator
+				using a helper function called <a href="globals.html#decorate">decorate</a> as follows: </p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> decorate = <span class="hljs-built_in">require</span>(<span class="hljs-string">"reflect-helper"</span>).decorate;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params">age</span>) </span>{
+    <span class="hljs-keyword">this</span>.age = age;
+}
+
+decorate(Person, Entity(<span class="hljs-string">"person"</span>), {
+    age: Field()
+});
+</code></pre>
+				<p>Now at a later point in our program we want to check if the Person class is annotated with EntityAnnotation. We can do
+				this using the <a href="classes/reflectcontext.html#gettype">getType</a> function.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { getType } from <span class="hljs-string">"reflect-helper"</span>;
+
+<span class="hljs-keyword">var</span> personType = getType(Person);
+
+<span class="hljs-built_in">console</span>.log(personType.hasAnnotation(EntityAnnotation)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(personType.getAnnotations(EntityAnnotation)[<span class="hljs-number">0</span>].name); <span class="hljs-comment">// person</span>
+</code></pre>
+				<p>Let&#39;s say we want to get the name and type of the first annotated property on the Person class:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">var</span> property = personType.properties[<span class="hljs-number">0</span>];
+
+<span class="hljs-built_in">console</span>.log(property.name); <span class="hljs-comment">// age</span>
+<span class="hljs-built_in">console</span>.log(property.type.name); <span class="hljs-comment">// Number</span>
+</code></pre>
+				<p>Note that only properties that have an annotation are available in the <code>properties</code> array on the <a href="classes/type.html">Type</a> class. Also,
+				the type of the property is only available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
