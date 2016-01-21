@@ -17,8 +17,8 @@ annotation can optionally specify the name of the entity. You can create this an
 ```
 
 To be able to apply the annotation to a class, we must first turn it into a decorator factory. We can do this using
-the [[makeDecorator]] function. When applied, an instance of the annotation is created and added to the 'annotations' 
-metadata for the class.
+the [makeDecorator](http://artifacthealth.github.io/reflect-helper/globals.html#makedecorator) function. When applied,
+an instance of the annotation is created and added to the 'annotations' metadata for the class.
 
 The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may 
 want to provide a type annotation because the parameters cannot be inferred.
@@ -46,7 +46,8 @@ decorator called Field:
 ```
 
 If not using a transpiler, such as TypeScript or Babel, that supports decorators, we can instead apply the decorator 
-using a helper function called [[decorate]] as follows: 
+using a helper function called [decorate](http://artifacthealth.github.io/reflect-helper/globals.html#decorate) as
+follows: 
 
 ```javascript
 var decorate = require("reflect-helper").decorate;
@@ -61,7 +62,7 @@ decorate(Person, Entity("person"), {
 ```
 
 Now at a later point in our program we want to check if the Person class is annotated with EntityAnnotation. We can do
-this using the [[getType]] function.
+this using the [getType](http://artifacthealth.github.io/reflect-helper/globals.html#gettype) function.
 
 ```typescript
 import { getType } from "reflect-helper";
@@ -81,5 +82,6 @@ console.log(property.name); // age
 console.log(property.type.name); // Number 
 ```
 
-Note that only properties that have an annotation are available in the `properties` array on the [[Type]] class. Also, 
-the type of the property is only available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.
+Note that only properties that have an annotation are available in the `properties` array on the 
+[Type](http://artifacthealth.github.io/reflect-helper/classes/type.html) class. Also, the type of the property is only
+available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.
