@@ -31,7 +31,7 @@ gulp.task('clean', function() {
 
 gulp.task('lib', function(done) {
 
-    return gulp.src(['build/src/**/*.js', "build/src/**/*.d.ts", "src/**/*.d.ts", "package.json", "*.txt", "README.md" ])
+    return gulp.src(['build/src/**/*.js', "build/src/**/*.d.ts", "src/**/*.d.ts", "package.json", "*.txt", "README.md", "example.js" ])
         .pipe(gulp.dest('lib'));
 });
 

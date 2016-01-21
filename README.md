@@ -17,8 +17,9 @@ annotation can optionally specify the name of the entity. You can create this an
 ```
 
 To be able to apply the annotation to a class, we must first turn it into a decorator factory. We can do this using
-the [makeDecorator](http://artifacthealth.github.io/reflect-helper/globals.html#makedecorator) function. When applied,
-an instance of the annotation is created and added to the 'annotations' metadata for the class.
+the [makeDecorator](http://artifacthealth.github.io/reflect-helper/globals.html#makedecorator) function. When the
+decorator is applied to a class, an instance of the annotation is created and added to the 'annotations' metadata for 
+the class.
 
 The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may 
 want to provide a type annotation because the parameters cannot be inferred.
