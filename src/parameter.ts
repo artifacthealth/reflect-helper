@@ -81,7 +81,7 @@ export class Parameter {
      */
     private _getOwnMetadata(): any[] {
 
-        var parameters = Reflect.getOwnMetadata('parameters', this.method.parent.ctr.prototype[this.method.name]) || [];
+        var parameters = Reflect.getOwnMetadata('parameters', this.method.parent.ctr.prototype, this.method.name) || [];
         return parameters[this.index] || [];
     }
 }

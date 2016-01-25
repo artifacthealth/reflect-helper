@@ -70,20 +70,41 @@ export function matchingAnnotations<T>(annotationCtr: Constructor<T>, annotation
  * ```
  */
 export function makeDecorator(annotationCtr: Constructor<any>) {
+    // The code for this function is adapted from https://github.com/angular/angular/blob/master/modules/angular2/src/core/util/decorators.ts
 
     return function DecoratorFactory(...args: any[]) {
 
         var annotationInstance = new annotationCtr(...args);
 
-        return function Decorator(target: Object, propertyName?: string): void {
+        return function Decorator(target: Object, propertyName?: string, parameterIndex?: number): void {
 
-            if(propertyName) {
+            // check for parameter annotation
+            if(typeof parameterIndex === "number") {
+                var parameters: any[][] = Reflect.getMetadata('parameters', target, propertyName);
+                parameters = parameters || [];
+
+                // there might be gaps if some in between parameters do not have annotations.
+                // we pad with nulls.
+                while (parameters.length <= parameterIndex) {
+                    parameters.push(null);
+                }
+
+                parameters[parameterIndex] = parameters[parameterIndex] || [];
+                var annotationsForParam: any[] = parameters[parameterIndex];
+                annotationsForParam.push(annotationInstance);
+
+                Reflect.defineMetadata('parameters', parameters, target, propertyName);
+            }
+            // check for property/method annotation
+            else if(propertyName) {
+
                 var properties = Reflect.getOwnMetadata('propMetadata', target.constructor);
                 properties = properties || {};
                 properties[propertyName] = properties[propertyName] || [];
                 properties[propertyName].push(annotationInstance);
                 Reflect.defineMetadata('propMetadata', properties, target.constructor);
             }
+            // otherwise, we have a class annotation
             else {
                 var annotations = Reflect.getOwnMetadata('annotations', target) || [];
                 annotations.push(annotationInstance);
@@ -92,6 +113,7 @@ export function makeDecorator(annotationCtr: Constructor<any>) {
         }
     }
 }
+
 
 /**
  * A map of decorators to be applied to the properties of a type. The key is the name of the property and the value
