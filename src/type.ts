@@ -87,6 +87,38 @@ export class Type {
     }
 
     /**
+     * Returns true if the current type is a subtype of the specified type; otherwise, returns false.
+     * @param type The [[Type]] or constructor function to check.
+     */
+    isSubtypeOf(type: Type | Constructor<any>): boolean {
+
+        var isFunction = typeof type === "function";
+
+        var baseType = this.baseType;
+        while (baseType) {
+            if (isFunction ? baseType.ctr === type : baseType === type) return true;
+            baseType = baseType.baseType;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the current type can be assigned to the specified type; otherwise, return false.
+     *
+     * This happens if one of the two conditions are met:
+     *  * The current type and the specified type are the same type.
+     *  * The current type is a subtype of the specified type.
+     *
+     * @param type The [[Type]] or constructor function to check.
+     */
+    isAssignableTo(type: Type | Constructor<any>): boolean {
+
+        if(typeof type === "function" ? this.ctr === type : this === type) return true;
+        return this.isSubtypeOf(type);
+    }
+
+    /**
      * @hidden
      */
     private _properties: Property[];
