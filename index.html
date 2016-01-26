@@ -76,8 +76,9 @@
  }
 </code></pre>
 				<p>To be able to apply the annotation to a class, we must first turn it into a decorator factory. We can do this using
-					the <a href="globals.html#makedecorator">makeDecorator</a> function. When applied, an instance of the annotation is created and added to the &#39;annotations&#39;
-				metadata for the class.</p>
+					the <a href="http://artifacthealth.github.io/reflect-helper/globals.html#makedecorator">makeDecorator</a> function. When the
+					decorator is applied to a class, an instance of the annotation is created and added to the &#39;annotations&#39; metadata for
+				the class.</p>
 				<p>The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may
 				want to provide a type annotation because the parameters cannot be inferred.</p>
 				<pre><code class="lang-typescript"> <span class="hljs-keyword">import</span> { makeDecorator } from <span class="hljs-string">"reflect-helper"</span>;
@@ -98,7 +99,8 @@
  }
 </code></pre>
 				<p>If not using a transpiler, such as TypeScript or Babel, that supports decorators, we can instead apply the decorator
-				using a helper function called <a href="globals.html#decorate">decorate</a> as follows: </p>
+					using a helper function called <a href="http://artifacthealth.github.io/reflect-helper/globals.html#decorate">decorate</a> as
+				follows: </p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> decorate = <span class="hljs-built_in">require</span>(<span class="hljs-string">"reflect-helper"</span>).decorate;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params">age</span>) </span>{
@@ -110,7 +112,7 @@ decorate(Person, Entity(<span class="hljs-string">"person"</span>), {
 });
 </code></pre>
 				<p>Now at a later point in our program we want to check if the Person class is annotated with EntityAnnotation. We can do
-				this using the <a href="classes/reflectcontext.html#gettype">getType</a> function.</p>
+				this using the <a href="http://artifacthealth.github.io/reflect-helper/globals.html#gettype">getType</a> function.</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { getType } from <span class="hljs-string">"reflect-helper"</span>;
 
 <span class="hljs-keyword">var</span> personType = getType(Person);
@@ -124,8 +126,9 @@ decorate(Person, Entity(<span class="hljs-string">"person"</span>), {
 <span class="hljs-built_in">console</span>.log(property.name); <span class="hljs-comment">// age</span>
 <span class="hljs-built_in">console</span>.log(property.type.name); <span class="hljs-comment">// Number</span>
 </code></pre>
-				<p>Note that only properties that have an annotation are available in the <code>properties</code> array on the <a href="classes/type.html">Type</a> class. Also,
-				the type of the property is only available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.</p>
+				<p>Note that only properties that have an annotation are available in the <code>properties</code> array on the
+					<a href="http://artifacthealth.github.io/reflect-helper/classes/type.html">Type</a> class. Also, the type of the property is only
+				available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
