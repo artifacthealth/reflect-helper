@@ -54,7 +54,7 @@ gulp.task('docs', function() {
     return gulp.src(['typings/**/*.ts', 'src/**/*.ts']).pipe(typedoc({
         target: 'es5',
         module: "commonjs",
-        out: 'docs',
+        out: 'build/docs',
         mode: "file",
         name: "reflect-helper",
         entryPoint: "index",
@@ -63,4 +63,10 @@ gulp.task('docs', function() {
         excludeNotExported: true,
         plugin: ['comment']
     }));
+});
+
+gulp.task('release-docs', function(done) {
+
+    return gulp.src(['build/docs/**/*.*' ])
+        .pipe(gulp.dest('docs'));
 });
