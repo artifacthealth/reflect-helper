@@ -6,6 +6,14 @@ import {Method} from "./method";
 
 /**
  * Information on a concrete type.
+ *
+ * <uml>
+ * hide members
+ * hide circle
+ * Type *-- Property : properties
+ * Type *-- Method : methods
+ * Type <-- Type : baseType
+ * </uml>
  */
 export class Type {
 

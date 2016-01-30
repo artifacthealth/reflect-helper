@@ -5,6 +5,14 @@ import {matchingAnnotations, Constructor} from "./util";
 
 /**
  * Information on a [[Type]] property.
+ *
+ * <uml>
+ * hide members
+ * hide circle
+ * Type *-- Property : properties
+ * Property <-- Type : parent
+ * Property <-- Type : type
+ * </uml>
  */
 export class Property {
 

@@ -6,6 +6,14 @@ import {matchingAnnotations, Constructor} from "./util";
 
 /**
  * Information on a [[Method]] parameter.
+ *
+ * <uml>
+ * hide members
+ * hide circle
+ * Method *-- Parameter : parameters
+ * Parameter <-- Method : method
+ * Parameter <-- Type : type
+ * </uml>
  */
 export class Parameter {
 

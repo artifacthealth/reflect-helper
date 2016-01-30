@@ -12,6 +12,15 @@ var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
 /**
  * Information on a method.
+ *
+ * <uml>
+ * hide members
+ * hide circle
+ * Property <|-- Method
+ * Type *-- Method : methods
+ * Method <-- Type : returnType
+ * Method *- Parameter : parameters
+ * </uml>
  */
 export class Method extends Property {
 
