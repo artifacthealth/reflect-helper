@@ -1,11 +1,11 @@
 This module is a utility library for working with Angular2-style annotations and type information provided by 
-TypeScript emitDecoratorMetadata. An annotation is a class that can be added as metadata on a type, property, method, 
-or parameter. API documentation is available [here](http://artifacthealth.github.io/reflect-helper).
+the TypeScript --emitDecoratorMetadata compiler option. An annotation is a class that can be added as metadata on a 
+type, property, method, or parameter. API documentation is available [here](http://artifacthealth.github.io/reflect-helper).
 
 
 ## Usage 
  
-Supposed you have a class, EntityAnnotation, that can be used to flag a type as a persistent entity. The 
+Suppose you have a class, EntityAnnotation, that can be used to flag a type as a persistent entity. The 
 annotation can optionally specify the name of the entity. You can create this annotation in TypeScript as follows:
 
 ```typescript
@@ -21,13 +21,12 @@ the [makeDecorator](http://artifacthealth.github.io/reflect-helper/globals.html#
 decorator is applied to a class, an instance of the annotation is created and added to the 'annotations' metadata for 
 the class.
 
-The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may 
-want to provide a type annotation because the parameters cannot be inferred.
+The parameters for the decorator factory will be the same as the parameters for the class constructor.
 
 ```typescript
  import { makeDecorator } from "reflect-helper";
  
- var Entity: (name?: string) => ClassDecorator = makeDecorator(EntityAnnotation);
+ var Entity = makeDecorator(EntityAnnotation);
 ```
 
 The Entity decorator can be applied to the class as demonstrated below. In this example we also apply a property 
@@ -83,6 +82,7 @@ console.log(property.name); // age
 console.log(property.type.name); // Number 
 ```
 
-Note that only properties that have an annotation are available in the `properties` array on the 
+Note that only properties that have an annotation are available in the 
+[[properties]](http://artifacthealth.github.io/reflect-helper/classes/type.html#properties) array on the 
 [Type](http://artifacthealth.github.io/reflect-helper/classes/type.html) class. Also, the type of the property is only
 available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.
