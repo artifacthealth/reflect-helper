@@ -133,7 +133,7 @@ export interface PropertyDecorators {
  *
  * ### Basic example
  *
- * Supposed with have a decorator factory, Entity, that marks a class as a persistent entity. We can apply the decorator
+ * Suppose you have a decorator, Entity, that marks a class as a persistent entity. We can apply the decorator
  * to our type as follows:
  * ```javascript
  * function Person(name) {
