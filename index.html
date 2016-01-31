@@ -64,10 +64,10 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<p>This module is a utility library for working with Angular2-style annotations and type information provided by
-					TypeScript emitDecoratorMetadata. An annotation is a class that can be added as metadata on a type, property, method,
-				or parameter. API documentation is available <a href="http://artifacthealth.github.io/reflect-helper">here</a>.</p>
+					the TypeScript --emitDecoratorMetadata compiler option. An annotation is a class that can be added as metadata on a
+				type, property, method, or parameter. API documentation is available <a href="http://artifacthealth.github.io/reflect-helper">here</a>.</p>
 				<h2 id="usage">Usage</h2>
-				<p>Supposed you have a class, EntityAnnotation, that can be used to flag a type as a persistent entity. The
+				<p>Suppose you have a class, EntityAnnotation, that can be used to flag a type as a persistent entity. The
 				annotation can optionally specify the name of the entity. You can create this annotation in TypeScript as follows:</p>
 				<pre><code class="lang-typescript"> <span class="hljs-keyword">class</span> EntityAnnotation {
 
@@ -79,11 +79,10 @@
 					the <a href="http://artifacthealth.github.io/reflect-helper/globals.html#makedecorator">makeDecorator</a> function. When the
 					decorator is applied to a class, an instance of the annotation is created and added to the &#39;annotations&#39; metadata for
 				the class.</p>
-				<p>The parameters for the decorator factory will be the same as the parameters for the class constructor. However, we may
-				want to provide a type annotation because the parameters cannot be inferred.</p>
+				<p>The parameters for the decorator factory will be the same as the parameters for the class constructor.</p>
 				<pre><code class="lang-typescript"> <span class="hljs-keyword">import</span> { makeDecorator } from <span class="hljs-string">"reflect-helper"</span>;
 
- <span class="hljs-keyword">var</span> Entity: (name?: <span class="hljs-built_in">string</span>) =&gt; ClassDecorator = makeDecorator(EntityAnnotation);
+ <span class="hljs-keyword">var</span> Entity = makeDecorator(EntityAnnotation);
 </code></pre>
 				<p>The Entity decorator can be applied to the class as demonstrated below. In this example we also apply a property
 				decorator called Field:</p>
@@ -126,7 +125,8 @@ decorate(Person, Entity(<span class="hljs-string">"person"</span>), {
 <span class="hljs-built_in">console</span>.log(property.name); <span class="hljs-comment">// age</span>
 <span class="hljs-built_in">console</span>.log(property.type.name); <span class="hljs-comment">// Number</span>
 </code></pre>
-				<p>Note that only properties that have an annotation are available in the <code>properties</code> array on the
+				<p>Note that only properties that have an annotation are available in the
+					<a href="http://artifacthealth.github.io/reflect-helper/classes/type.html#properties">[properties]</a> array on the
 					<a href="http://artifacthealth.github.io/reflect-helper/classes/type.html">Type</a> class. Also, the type of the property is only
 				available if the --emitDecoratorMetadata compiler option is enabled in TypeScript.</p>
 			</div>
