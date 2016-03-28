@@ -77,7 +77,7 @@ export class Type {
         if (inherit) {
             var baseType = this.baseType;
             if (baseType) {
-                annotations = this.baseType.getAnnotations(annotationCtr, inherit).concat(annotations);
+                annotations = baseType.getAnnotations(annotationCtr, inherit).concat(annotations);
             }
         }
 

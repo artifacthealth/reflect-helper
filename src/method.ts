@@ -114,9 +114,11 @@ export class Method extends Property {
 
         var fnText = fn.toString().replace(STRIP_COMMENTS, '');
         var argDecl = fnText.match(FN_ARGS);
-        argDecl[1].split(FN_ARG_SPLIT).forEach((arg: string) => {
-            names.push(arg.trim());
-        });
+        if(argDecl[1]) {
+            argDecl[1].split(FN_ARG_SPLIT).forEach((arg: string) => {
+                names.push(arg.trim());
+            });
+        }
 
         return names;
     }

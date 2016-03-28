@@ -2,7 +2,7 @@ import {assert} from "chai";
 import {ClassWithoutDecorators} from "./fixtures/classWithoutDecorators";
 import {ClassWithDecorators} from "./fixtures/classWithDecorators";
 import {ReflectContext} from "../src/reflectContext";
-import {ParentType, DerivedType} from "./fixtures/subtypes";
+import {ParentType, DerivedType, TestAnnotation} from "./fixtures/subtypes";
 
 describe('Type', () => {
 
@@ -14,7 +14,7 @@ describe('Type', () => {
 
         it('gets a list of all methods on the prototype even if they are not annotated', () => {
 
-            assert.equal(typeWithoutDecorators.methods.length, 2);
+            assert.equal(typeWithoutDecorators.methods.length, 3);
         });
 
         it('gets methods that are decorated or not and are functions', () => {
@@ -71,6 +71,19 @@ describe('Type', () => {
         it('return true if current type is the same type as the specified constructor', () => {
 
             assert.isTrue(context.getType(DerivedType).isAssignableTo(DerivedType));
+        });
+    });
+
+    describe("getAnnotations", () => {
+
+        it("gets annotations on base types when inherit is true", () => {
+
+            assert.equal(context.getType(DerivedType).getAnnotations(TestAnnotation, true)[0].value, "somevalue");
+        });
+
+        it("does not get annotations on base types when inherit is not specified", () => {
+
+            assert.isUndefined(context.getType(DerivedType).getAnnotations(TestAnnotation)[0]);
         });
     });
 });

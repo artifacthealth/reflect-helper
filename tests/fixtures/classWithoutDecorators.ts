@@ -15,4 +15,8 @@ export class ClassWithoutDecorators {
 
         return a / b;
     }
+    
+    something(): void {
+        
+    }
 }
