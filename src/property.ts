@@ -26,6 +26,8 @@ export class Property {
      */
     name: string;
 
+    private _descriptor: PropertyDescriptor;
+
     /**
      * Creates a [[Property]] object.
      * @param context The [[ReflectContext]] that is managing the [[Type]].
@@ -58,6 +60,22 @@ export class Property {
             this._type = this.context.getType(this._getPropertyType());
         }
         return this._type;
+    }
+
+    /**
+     * Returns true if the property has a get accessor.
+     */
+    get hasGetter(): boolean {
+        var descriptor = this._getDescriptor();
+        return descriptor != null && descriptor.get !== undefined;
+    }
+
+    /**
+     * Returns true if the property has a set accessor.
+     */
+    get hasSetter(): boolean {
+        var descriptor = this._getDescriptor();
+        return descriptor != null && descriptor.set !== undefined;
     }
 
     /**
@@ -111,6 +129,17 @@ export class Property {
         this.setValue = <any>(new Function("o,v", "o['" + this.name + "'] = v"));
 
         obj[this.name] = value;
+    }
+
+    /**
+     * @hidden
+     */
+    private _getDescriptor(): PropertyDescriptor {
+
+        if (this._descriptor === undefined) {
+            this._descriptor = Object.getOwnPropertyDescriptor(this.parent.ctr.prototype, this.name) || null;
+        }
+        return this._descriptor;
     }
 
     /**

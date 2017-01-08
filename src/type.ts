@@ -146,6 +146,24 @@ export class Type {
     }
 
     /**
+     * Returns the property with the specified name.
+     * @param name The property name to find.
+     */
+    getProperty(name: string): Property {
+
+        var properties = this.properties;
+        for (var i = 0; i < properties.length; i++) {
+
+            var property = properties[i];
+            if (property.name == name) {
+                return property;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @hidden
      */
     private _methods: Method[];
@@ -273,7 +291,7 @@ export class Type {
         var properties = Reflect.getOwnMetadata('propMetadata', this.ctr);
         if (properties) {
             return Object.getOwnPropertyNames(properties)
-                .filter(p => typeof this.ctr.prototype[p] !== "function");
+                .filter(p => isAccessor(this.ctr.prototype, p) || typeof this.ctr.prototype[p] !== "function");
         }
 
         return [];
@@ -287,7 +305,7 @@ export class Type {
 
         if(this.ctr) {
             return Object.getOwnPropertyNames(this.ctr.prototype)
-                .filter(p => p != "constructor" && typeof this.ctr.prototype[p] === "function");
+                .filter(p => p != "constructor" && (isAccessor(this.ctr.prototype, p) ||  typeof this.ctr.prototype[p] === "function"));
         }
 
         return [];
@@ -301,6 +319,10 @@ export class Type {
 
         return Reflect.getOwnMetadata('annotations', this.ctr) || [];
     }
-
 }
 
+function isAccessor(obj: any, p: string): boolean {
+
+    var d = Object.getOwnPropertyDescriptor(obj, p);
+    return !!(d && (d.get || d.set));
+}

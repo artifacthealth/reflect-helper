@@ -15,7 +15,7 @@ ManualDecoration.prototype.add = function(a: number, b: number): number {
 ManualDecoration.prototype.divide = function(a: number, b: number): number {
 
     return a / b;
-}
+};
 
 decorate(ManualDecoration, Contract(), {
     name: Field(),
