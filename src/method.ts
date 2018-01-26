@@ -6,7 +6,7 @@ import {Property} from "./property";
 import {Constructor} from "./util";
 
 // These RegEx and the code below for getParameterNames is modified code from AngularJS
-var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
+var FN_ARGS = /^(?:function)?\s*[^\(]*\(\s*([^\)]*)\)/m;
 var FN_ARG_SPLIT = /,/;
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
